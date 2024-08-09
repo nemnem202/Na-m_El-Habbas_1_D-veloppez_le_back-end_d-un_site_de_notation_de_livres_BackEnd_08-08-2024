@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
+
 const BooksRoutes = require('./routes/booksRoutes')
+const UserRoutes = require('./routes/UserRoutes')
 
 
 mongoose.connect('mongodb+srv://naimelhabbas:ZRiSmb22aR-J.Jy@cluster0.p5x96.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
@@ -23,12 +25,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
 
-    console.log('acces créés')
     next()
   })
 
-app.use('/api',BooksRoutes)
+app.use('/api/auth', UserRoutes)
 
+app.use('/api', BooksRoutes)
 
-
-module.exports = app 
+module.exports = app   
