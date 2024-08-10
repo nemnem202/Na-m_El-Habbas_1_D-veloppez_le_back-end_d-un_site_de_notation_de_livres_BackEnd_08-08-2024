@@ -48,3 +48,29 @@ exports.RecupererSingleBook = (req, res) => {
     })
     .catch(error => res.status(500).json({error}))
 }
+
+exports.SupprimerBook = (req, res) => {
+
+    const bookId = req.params.id
+
+    books.findById(bookId)
+        .then(book => {
+            if (!book) {
+                return res.status(404).json({ message: 'Livre non trouvé' })
+            }
+            if (book.userId !== req.auth.userId) {
+                return res.status(403).json({ message: 'Requête non autorisée' })
+            }
+            books.deleteOne({ _id: bookId })
+                .then(() => 
+                {
+                    res.status(200).json({ message: 'Livre supprimé avec succès' })
+                })
+                .catch(error => {
+                    res.status(400).json({ error })
+                })
+        })
+        .catch(error => {
+            res.status(500).json({ error })
+        })
+}
