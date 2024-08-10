@@ -12,14 +12,12 @@ exports.SignUp = (req,res, next) => {
         user.save()
         .then(()=> 
         {
-            console.log('Utilisateur créé !')
             res.status(201).json({message:'Utilisateur créé !'})
         }
     )
         .catch(error => res.status(400).json({error}))
     })
     .catch(error => {
-        console.log('erreur de création')
         res.status(500).json({message:'Erreur'})
     })
 }
@@ -38,7 +36,6 @@ exports.Login = (req,res,next) => {
                     res.status(401).json({message: 'Paire id-mdp incorrecte'})
                 }
                 else {
-                    console.log('vous etes connecté !')
                     res.status(200).json({
                         userId: user.id,
                         token: WebToken.sign(
@@ -55,7 +52,6 @@ exports.Login = (req,res,next) => {
         }
     })
     .catch(error => {
-        console.log('probleme dans la base de données')
         res.status(500).json({error})
     })
 }
