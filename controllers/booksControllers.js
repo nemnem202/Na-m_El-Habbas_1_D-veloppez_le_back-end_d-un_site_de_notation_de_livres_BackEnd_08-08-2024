@@ -50,7 +50,6 @@ exports.RecupererSingleBook = (req, res) => {
 }
 
 exports.ModifierBook = (req, res) => {
-    console.log('ModifierBook')
 
     const bookId = req.params.id
 
@@ -107,17 +106,44 @@ exports.SupprimerBook = (req, res) => {
 
 exports.MieuxNotes = (req, res) => {
 
-    console.log('Mieux notes')
-
     books.find()
         .sort({ averageRating: -1 })
         .limit(3)
         .then(books => {
-            console.log('triés')
             res.status(200).json(books)
         })
         .catch(error => {
-            console.log('echec')
             res.status(500).json({ error })
         })
 };
+
+
+exports.MettreUneNote = (req, res) => {
+
+    const note = req.body.rating
+    
+    const userId = req.auth.userId
+
+    const bookId = req.params.id
+
+    books.findById(bookId)
+    .then(book => {
+        
+        const existingRating = book.ratings.find(rating => rating.userId === userId)
+
+        if (existingRating) {
+
+            existingRating.grade = note;
+        } else {
+            book.ratings.push({ userId, grade: note })
+        }
+
+        const totalRatings = book.ratings.length;
+        const averageRating = book.ratings.reduce((sum, rating) => sum + rating.grade, 0) / totalRatings;
+
+        book.averageRating = averageRating;
+
+        return book.save()
+    })
+
+}

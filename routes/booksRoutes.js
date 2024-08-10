@@ -13,11 +13,10 @@ Routeur.get('/bestrating', booksController.MieuxNotes)
 
 Routeur.get('/:id', booksController.RecupererSingleBook)
 
-
 Routeur.put('/:id', auth, booksController.ModifierBook)
 
 Routeur.delete('/:id', auth, booksController.SupprimerBook)
 
-
+Routeur.post('/:id/rating', auth, booksController.MettreUneNote)
 
 module.exports = Routeur  
