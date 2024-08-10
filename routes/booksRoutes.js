@@ -5,14 +5,19 @@ const multer = require('../middleware/multer-config')
 const auth = require('../middleware/auth')
 
 
-Routeur.post('/books', auth, multer, booksController.CreerBook) 
+Routeur.post('/', auth, multer, booksController.CreerBook) 
 
-Routeur.get('/books', booksController.RecupererBooks)
+Routeur.get('/', booksController.RecupererBooks)
 
-Routeur.get('/books/:id', booksController.RecupererSingleBook)
+Routeur.get('/bestrating', booksController.MieuxNotes)
 
-Routeur.put('/books/:id', auth, booksController.ModifierBook)
+Routeur.get('/:id', booksController.RecupererSingleBook)
 
-Routeur.delete('/books/:id', auth, booksController.SupprimerBook)
+
+Routeur.put('/:id', auth, booksController.ModifierBook)
+
+Routeur.delete('/:id', auth, booksController.SupprimerBook)
+
+
 
 module.exports = Routeur  

@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', UserRoutes)
 
-app.use('/api', BooksRoutes)
+app.use('/api/books', BooksRoutes)
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
 

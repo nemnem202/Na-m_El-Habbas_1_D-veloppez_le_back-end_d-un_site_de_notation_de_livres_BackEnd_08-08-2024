@@ -1,3 +1,4 @@
+const { copy } = require('../App')
 const books = require('../models/books')
 
 exports.CreerBook = (req, res)=>{
@@ -103,3 +104,20 @@ exports.SupprimerBook = (req, res) => {
             res.status(500).json({ error })
         })
 }
+
+exports.MieuxNotes = (req, res) => {
+
+    console.log('Mieux notes')
+
+    books.find()
+        .sort({ averageRating: -1 })
+        .limit(3)
+        .then(books => {
+            console.log('triés')
+            res.status(200).json(books)
+        })
+        .catch(error => {
+            console.log('echec')
+            res.status(500).json({ error })
+        })
+};
