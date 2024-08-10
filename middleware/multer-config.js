@@ -18,7 +18,7 @@ const resizeImage = async(buffer, filename) => {
 
     const outputPath = path.resolve('images', filename)
     await sharp(buffer)
-    .resize(260, 260)
+    .resize(206, 260)
     .toFile(outputPath)
 }
 
@@ -33,7 +33,7 @@ module.exports = (req, res, next) => {
         try {
             await resizeImage(req.file.buffer, filename)
             req.file.filename = filename
-            res.status(201).json({ message: 'Image téléchargée et redimensionnée avec succès !' })
+            next()
             
         }
          catch (error) {
