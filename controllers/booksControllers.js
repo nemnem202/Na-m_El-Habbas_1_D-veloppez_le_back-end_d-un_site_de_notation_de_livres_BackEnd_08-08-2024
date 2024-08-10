@@ -90,6 +90,8 @@ exports.SupprimerBook = (req, res) => {
             if (book.userId !== req.auth.userId) {
                 return res.status(403).json({ message: 'Requête non autorisée' })
             }
+
+
             books.deleteOne({ _id: bookId })
                 .then(() => 
                 {
@@ -103,6 +105,7 @@ exports.SupprimerBook = (req, res) => {
             res.status(500).json({ error })
         })
 }
+
 
 exports.MieuxNotes = (req, res) => {
 
