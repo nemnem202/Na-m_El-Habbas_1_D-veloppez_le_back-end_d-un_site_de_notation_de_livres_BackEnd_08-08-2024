@@ -27,8 +27,7 @@ exports.CreerBook = (req, res)=>{
     catch(error) {
         res.status(400).json({error})
     }
-    }
-
+}
 
 exports.RecupererBooks = (req,res)=>{
     books.find()
@@ -47,6 +46,36 @@ exports.RecupererSingleBook = (req, res) => {
         else {res.status(200).json(book)}
     })
     .catch(error => res.status(500).json({error}))
+}
+
+exports.ModifierBook = (req, res) => {
+    console.log('ModifierBook')
+
+    const bookId = req.params.id
+
+    const updatedBook = { ...req.body }
+
+    books.findById(bookId)
+    .then(book => {
+        if (!book) {
+            return res.status(404).json({ message: 'Livre non trouvé' })
+        }
+        if (book.userId !== req.auth.userId) {
+            return res.status(403).json({ message: 'Requête non autorisée' })
+        }
+        books.updateOne({ _id: bookId }, { ...updatedBook, _id: bookId })
+            .then(() => 
+            {
+                res.status(200).json({ message: 'Livre supprimé avec succès' })
+            })
+            .catch(error => {
+                res.status(400).json({ error })
+            })
+    })
+    .catch(error => {
+        res.status(500).json({ error })
+    })
+    
 }
 
 exports.SupprimerBook = (req, res) => {

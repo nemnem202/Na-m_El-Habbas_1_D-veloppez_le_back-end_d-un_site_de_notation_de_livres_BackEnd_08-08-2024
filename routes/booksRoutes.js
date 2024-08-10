@@ -11,6 +11,8 @@ Routeur.get('/books', booksController.RecupererBooks)
 
 Routeur.get('/books/:id', booksController.RecupererSingleBook)
 
+Routeur.put('/books/:id', auth, booksController.ModifierBook)
+
 Routeur.delete('/books/:id', auth, booksController.SupprimerBook)
 
 module.exports = Routeur  
