@@ -2,9 +2,13 @@ const books = require('../models/books')
 
 exports.CreerBook = (req, res)=>{
 
+    console.log('fonction CreerBook')
+
     try {
         const BookObject = JSON.parse(req.body.book)
-    
+        
+        console.log('req.file.filename:',req.file.filename)
+
         delete BookObject.id
         delete BookObject._userId
     
@@ -15,11 +19,17 @@ exports.CreerBook = (req, res)=>{
         })
     
         Book.save()
-        .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
+        .then(() => {
+            console.log('livre enregistré')
+            res.status(201).json({ message: 'Objet enregistré !' })
+        }
+    )
         .catch(error => {
+            console.log('erreur d\'enregistrement')
             res.status(400).json({error})})
     } 
     catch(error) {
+        console.log('erreur de creation')
         res.status(400).json({error})
     }
     }
