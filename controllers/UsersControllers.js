@@ -1,5 +1,6 @@
 const User = require('../models/Users')
 const bcrypt = require('bcrypt')
+const WebToken = require('jsonwebtoken')
 
 exports.SignUp = (req,res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -40,7 +41,11 @@ exports.Login = (req,res,next) => {
                     console.log('vous etes connecté !')
                     res.status(200).json({
                         userId: user.id,
-                        token: 'Token identifié'
+                        token: WebToken.sign(
+                            { userId: user._id },
+                            'Random_Token',
+                            { expiresIn: '24h'}
+                        )
                     })
                 }
             })
