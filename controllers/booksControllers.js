@@ -106,7 +106,6 @@ exports.SupprimerBook = (req, res) => {
         })
 }
 
-
 exports.MieuxNotes = (req, res) => {
 
     books.find()
@@ -119,7 +118,6 @@ exports.MieuxNotes = (req, res) => {
             res.status(500).json({ error })
         })
 };
-
 
 exports.MettreUneNote = (req, res) => {
 

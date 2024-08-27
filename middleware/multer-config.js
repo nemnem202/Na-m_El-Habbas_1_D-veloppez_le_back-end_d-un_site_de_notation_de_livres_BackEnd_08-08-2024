@@ -37,7 +37,6 @@ module.exports = (req, res, next) => {
             
         }
          catch (error) {
-
             res.status(500).json({ error: 'Erreur lors du redimensionnement de l\'image' });
         }
         
