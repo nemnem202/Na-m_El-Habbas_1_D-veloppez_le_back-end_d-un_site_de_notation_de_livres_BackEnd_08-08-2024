@@ -1,15 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const dotenv = require("dotenv");
 const BooksRoutes = require("./routes/booksRoutes");
 const UserRoutes = require("./routes/UserRoutes");
 
+dotenv.config();
+
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connexion à MongoDB réussie !");
   })
   .catch(() => {
+    console.log("MongoDB URI:", process.env.MONGODB_URI);
+
     console.log("Connexion à MongoDB échouée !");
   });
 
