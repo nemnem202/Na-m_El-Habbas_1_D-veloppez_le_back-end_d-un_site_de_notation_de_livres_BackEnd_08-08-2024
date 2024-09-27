@@ -1,22 +1,21 @@
-const express = require('express')
-const booksController = require('../controllers/booksControllers')
-const Routeur = express.Router()
-const multer = require('../middleware/multer-config')
-const auth = require('../middleware/auth')
+const express = require("express");
+const booksController = require("../controllers/booksControllers");
+const Routeur = express.Router();
+const multer = require("../middleware/multer-config");
+const auth = require("../middleware/auth");
 
+Routeur.post("/", auth, multer, booksController.CreerBook);
 
-Routeur.post('/', auth, multer, booksController.CreerBook) 
+Routeur.get("/", booksController.RecupererBooks);
 
-Routeur.get('/', booksController.RecupererBooks)
+Routeur.get("/bestrating", booksController.MieuxNotes);
 
-Routeur.get('/bestrating', booksController.MieuxNotes)
+Routeur.get("/:id", booksController.RecupererSingleBook);
 
-Routeur.get('/:id', booksController.RecupererSingleBook)
+Routeur.put("/:id", auth, booksController.ModifierBook);
 
-Routeur.put('/:id', auth, booksController.ModifierBook)
+Routeur.delete("/:id", auth, booksController.SupprimerBook);
 
-Routeur.delete('/:id', auth, booksController.SupprimerBook)
+Routeur.post("/:id/rating", auth, booksController.MettreUneNote);
 
-Routeur.post('/:id/rating', auth, booksController.MettreUneNote)
-
-module.exports = Routeur  
+module.exports = Routeur;
