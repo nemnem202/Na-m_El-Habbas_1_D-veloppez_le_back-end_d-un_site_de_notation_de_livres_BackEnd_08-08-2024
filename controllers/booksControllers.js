@@ -1,16 +1,19 @@
-const { copy } = require("../App");
 const books = require("../models/books");
 
 exports.CreerBook = (req, res) => {
   try {
     const BookObject = JSON.parse(req.body.book);
 
-    delete BookObject.id;
-    delete BookObject._userId;
+    const { title, author, year, genre, ratings, averageRating } = BookObject;
 
     const Book = new books({
-      ...BookObject,
       userId: req.auth.userId,
+      title,
+      author,
+      year,
+      genre,
+      ratings: ratings || [],
+      averageRating: averageRating || 0,
       imageUrl: `${req.protocol}://${req.get("host")}/images/${
         req.file.filename
       }`,
@@ -18,7 +21,7 @@ exports.CreerBook = (req, res) => {
 
     Book.save()
       .then(() => {
-        res.status(201).json({ message: "Objet enregistré !" });
+        res.status(201).json({ message: "Livre enregistré !" });
       })
       .catch((error) => {
         res.status(400).json({ error });

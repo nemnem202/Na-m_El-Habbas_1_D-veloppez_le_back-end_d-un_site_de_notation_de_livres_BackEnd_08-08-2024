@@ -4,6 +4,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const BooksRoutes = require("./routes/booksRoutes");
 const UserRoutes = require("./routes/UserRoutes");
+const helmet = require("helmet");
 
 dotenv.config();
 
@@ -13,12 +14,12 @@ mongoose
     console.log("Connexion à MongoDB réussie !");
   })
   .catch(() => {
-    console.log("MongoDB URI:", process.env.MONGODB_URI);
-
     console.log("Connexion à MongoDB échouée !");
   });
 
 const app = express();
+
+app.use(helmet());
 
 app.use(express.json());
 
