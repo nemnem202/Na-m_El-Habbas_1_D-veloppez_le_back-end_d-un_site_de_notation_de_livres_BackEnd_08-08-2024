@@ -55,9 +55,6 @@ exports.Login = (req, res, next) => {
             }
           })
           .catch((error) => {
-            console.log(secret);
-            console.log("process.env", process.env.SECRET_KEY);
-            console.log("erreur 500");
             res.status(500).json({ error });
           });
       }
