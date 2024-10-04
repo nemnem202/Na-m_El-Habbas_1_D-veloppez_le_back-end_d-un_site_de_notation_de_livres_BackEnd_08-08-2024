@@ -4,7 +4,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const BooksRoutes = require("./routes/booksRoutes");
 const UserRoutes = require("./routes/UserRoutes");
-const helmet = require("helmet");
+/* const helmet = require("helmet"); */
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ mongoose
 
 const app = express();
 
-app.use(helmet());
+/* app.use(helmet()); */
 
 app.use(express.json());
 
@@ -33,6 +33,10 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
   next();
 });

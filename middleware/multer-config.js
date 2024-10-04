@@ -20,6 +20,10 @@ const resizeImage = async (buffer, filename) => {
 
 module.exports = (req, res, next) => {
   upload(req, res, async (err) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "Pas de fichier uploadé" });
+    }
+
     const name = req.file.originalname.split(" ").join("_");
     const extension = MIME_TYPES[req.file.mimetype];
     const filename = name + Date.now() + "." + extension;
@@ -27,6 +31,14 @@ module.exports = (req, res, next) => {
     try {
       await resizeImage(req.file.buffer, filename);
       req.file.filename = filename;
+      if (err) {
+        return res
+          .status(500)
+          .json({ error: "Erreur lors de l'upload du fichier" });
+      } else {
+        console.log("image enregistrée");
+      }
+
       next();
     } catch (error) {
       res

@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const WebToken = require("jsonwebtoken");
 
 exports.SignUp = (req, res, next) => {
-  const secret = process.env.SECRET_KEY;
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {

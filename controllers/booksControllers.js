@@ -6,6 +6,9 @@ exports.CreerBook = (req, res) => {
 
     const { title, author, year, genre, ratings, averageRating } = BookObject;
 
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
     const Book = new books({
       userId: req.auth.userId,
       title,
@@ -14,9 +17,7 @@ exports.CreerBook = (req, res) => {
       genre,
       ratings: ratings || [],
       averageRating: averageRating || 0,
-      imageUrl: `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`,
+      imageUrl: imageUrl,
     });
 
     Book.save()

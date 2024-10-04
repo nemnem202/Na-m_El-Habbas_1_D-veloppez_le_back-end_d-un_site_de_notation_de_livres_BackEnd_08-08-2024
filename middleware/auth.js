@@ -12,8 +12,6 @@ module.exports = (req, res, next) => {
     };
     next();
   } catch (error) {
-    console.log("c'est ce middleware qui pose probleme");
-    console.log(error);
     res.status(401).json({ error });
   }
 };
