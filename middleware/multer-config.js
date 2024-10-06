@@ -15,7 +15,7 @@ const upload = multer({ storage }).single("image");
 
 const resizeImage = async (buffer, filename) => {
   const outputPath = path.resolve("images", filename);
-  await sharp(buffer).resize(206, 260).toFile(outputPath);
+  await sharp(buffer).resize(206, 260).toFormat("webp").toFile(outputPath);
 };
 
 module.exports = (req, res, next) => {
@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
     }
 
     const name = req.file.originalname.split(" ").join("_");
-    const extension = MIME_TYPES[req.file.mimetype];
+    const extension = "webp";
     const filename = name + Date.now() + "." + extension;
 
     try {
