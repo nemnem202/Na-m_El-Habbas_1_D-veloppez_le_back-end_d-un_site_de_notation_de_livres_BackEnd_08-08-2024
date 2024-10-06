@@ -55,31 +55,40 @@ exports.RecupererSingleBook = (req, res) => {
 };
 
 exports.ModifierBook = (req, res) => {
-  const bookId = req.params.id;
+  try {
+    const bookId = req.params.id;
 
-  const updatedBook = { ...req.body };
+    const updatedBook = req.body;
 
-  books
-    .findById(bookId)
-    .then((book) => {
-      if (!book) {
-        return res.status(404).json({ message: "Livre non trouvé" });
-      }
-      if (book.userId !== req.auth.userId) {
-        return res.status(403).json({ message: "Requête non autorisée" });
-      }
-      books
-        .updateOne({ _id: bookId }, { ...updatedBook, _id: bookId })
-        .then(() => {
-          res.status(200).json({ message: "Livre supprimé avec succès" });
-        })
-        .catch((error) => {
-          res.status(400).json({ error });
-        });
-    })
-    .catch((error) => {
-      res.status(500).json({ error });
-    });
+    const { title, author, year, genre, ratings, averageRating } = updatedBook;
+
+    books
+      .findById(bookId)
+      .then((book) => {
+        if (!book) {
+          return res.status(404).json({ message: "Livre non trouvé" });
+        }
+        if (book.userId !== req.auth.userId) {
+          return res.status(403).json({ message: "Requête non autorisée" });
+        }
+        books
+          .updateOne(
+            { _id: bookId },
+            { title, author, year, genre, ratings, averageRating, _id: bookId }
+          )
+          .then(() => {
+            res.status(200).json({ message: "Livre supprimé avec succès" });
+          })
+          .catch((error) => {
+            res.status(400).json({ error });
+          });
+      })
+      .catch((error) => {
+        res.status(500).json({ error });
+      });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 exports.SupprimerBook = (req, res) => {

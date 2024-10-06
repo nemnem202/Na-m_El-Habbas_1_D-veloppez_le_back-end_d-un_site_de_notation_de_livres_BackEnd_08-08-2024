@@ -4,7 +4,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const BooksRoutes = require("./routes/booksRoutes");
 const UserRoutes = require("./routes/UserRoutes");
-/* const helmet = require("helmet"); */
+const helmet = require("helmet");
 
 dotenv.config();
 
@@ -19,7 +19,14 @@ mongoose
 
 const app = express();
 
-/* app.use(helmet()); */
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:"],
+    },
+  })
+);
 
 app.use(express.json());
 
